@@ -1,0 +1,70 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Django Demo</title>
+    <style type="text/css">
+        .r {
+            color: red;
+        }
+        .g {
+            color:green;
+        }
+    </style>
+</head>
+<body>
+    {% load my_tag %}
+    <div>
+        <span>变量测试：{{ t_var }}</span><br>
+        <span>管道测试1：{{ t_name | lower }}</span><br>
+        <span>管道测试2：{{ t_name | first | upper }}</span><br>
+        <span>管道测试3：{{ t_name | truncatewords:"1" }}</span><br>
+        <span>管道测试3：{{ t_none | default:"默认为空" }}</span><br>
+        <span>管道测试4：{{ t_date | date:"Y-m-d" }}</span><br>
+        <span>管道测试5：{{ t_name | truncatechars:3 }}</span><br>
+        <span>管道测试6：{{ t_script | safe }}</span><br>
+        <span>自定义过滤器测试：{{11 | my_filter:22 }}</span><br>
+        <span>自定义标签测试：{% my_tag 11 22 3 %}</span>
+
+    </div>
+    <div>
+        <table>
+            <tr>
+                <th>{{ t_list.0 }}</th>
+            </tr>
+            {% if t_std_list %}
+                {% for std in t_std_list %}
+                <tr>
+                    <td {%if forloop.first %} class="r" {% endif %}>{{ forloop.counter }}.{{ std }}</td>
+                </tr>
+                {% endfor %}
+            {% endif %}
+        </table>
+    </div>
+
+    <div>
+        {% for i in t_none  %}
+            <span>{{ forloop.counter0 }}</span>
+        {% empty %}
+            <span>数组为空</span>
+        {% endfor %}
+
+    </div>
+
+    <div>
+        {% for k,v in t_dict.items %}
+            {{ k }}：
+            <ul>
+                {% for a in v %}
+                    {# 当名字不是李铁的时候显示 #}
+                    {% ifnotequal a '李铁' %}
+                        <li>{{ a }}</li>
+                    {% endifnotequal %}
+                {% endfor %}
+            </ul>
+        {% endfor %}
+    </div>
+    
+</body>
+</html>
