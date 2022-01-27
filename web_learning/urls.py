@@ -15,11 +15,18 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from . import views,testdb
+from django.conf.urls import url
+from . import views,testdb,search
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('demo/', views.demo),
     path('child/',views.child),
-    path('testdb/',testdb.testdb)
+    path('testdb/',testdb.testdb),
+    path('getData/',testdb.getTestData),
+    path('updateData/',testdb.updateTestData),
+    path('delData/',testdb.delTestData),
+    url(r'^search-form/$',search.search_form),
+    path('search/',search.search),
+    path('search-post/',search.search_post)
 ]
