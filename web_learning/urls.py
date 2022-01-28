@@ -14,7 +14,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path,re_path
 from django.conf.urls import url
 from . import views,testdb,search
 
@@ -28,5 +28,9 @@ urlpatterns = [
     path('delData/',testdb.delTestData),
     url(r'^search-form/$',search.search_form),
     path('search/',search.search),
-    path('search-post/',search.search_post)
+    path('search-post/',search.search_post),
+    url(r'^process/$',views.processBody),
+    url(r'^user/(?P<id>\d{2})/$',views.user),  # 一个分组代表一个形参,?P<形参名>
+    re_path(r'^index/$',views.index,name='index'),
+    re_path(r'^login/(\d{2})/$',views.jlogin,name='jlogin')
 ]

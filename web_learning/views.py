@@ -7,9 +7,11 @@
 @Desc    :   视图py
 '''
 
-from django.shortcuts import render
+from django.shortcuts import redirect, render
+from django.http import HttpResponse
 from datetime import datetime 
-
+from django.urls import reverse
+import json
 
 def demo(request):
     v_dict = {}
@@ -28,3 +30,34 @@ def demo(request):
 
 def child(request):
     return render(request,"child.html")
+
+def processBody(request):
+    print("path属性:",request.path)
+    print("method属性：",request.method)
+    print("COOKIES属性：",request.COOKIES)
+    print("META属性：",request.META)
+    print("session属性：",request.session)
+    print("fullpath:",request.get_full_path())
+    # print("raw_post_data属性：",request.raw_post_data)
+    json_str = request.body
+    print(json.loads( json_str.decode("utf-8")))
+    return HttpResponse("ok")
+
+def user(request,id):
+    m = request.method
+    print("user_id:",id)
+    return HttpResponse("ok")
+
+def index(request):
+    return render(request,"login.html")
+
+def jlogin(request,age):
+    if request.method == "GET":
+        return HttpResponse("OK")
+    else:
+        username = request.POST.get("username")
+        password = request.POST.get("password")
+        if username == "django" and password == "django":
+            return render(request,"demo.html")
+        else:
+            return redirect(reverse("index"))
